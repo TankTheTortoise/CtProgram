@@ -10,22 +10,16 @@ def forward(x, m, b):
     return x
 
 
-def element_mul(list1, scalar):
-    for i in range(len(list1)):
-        list1[i] *= scalar
-    return list1[i]
-
-
-data1 = [1, 2, 3, 4]
-data2 = [2, 4, 6, 8]
+data1 = [x for x in range(4)]
+data2 = [x*2+3 for x in range(4)]
 
 weight = 2
 bias = 0.01
 
 epochs = 1000
-lr = 0.001
+lr = 0.01
 
-batch_size=1
+batch_size=2
 batched_data1 = []
 batched_data2 = []
 for d in range(batch_size, len(data1)+1):
@@ -34,19 +28,21 @@ for d in range(batch_size, len(data2)+1):
     batched_data2.append(data2[d-batch_size: d])
 
 print(batched_data1)
-samples = len(data1)
+samples = len(batched_data1)
 for epoch in range(epochs):
     for i in range(0, samples):
         output = 0
         error = 0
-        for j in range(batch_size):
+        for j in range(0, int(len(data1)/batch_size)-1):
             output += forward(batched_data1[i][j], weight, bias)
             error += mse(batched_data2[i][j], output, d=True)
         weight -= (error * data1[i] * lr)
         bias -= (error * lr)/batch_size
-print(weight, bias)
 
-print(weight, bias)
+    print(weight, bias)
+
+weight = round(weight, 4)
+bias = round(bias, 4)
 for j in range(len(data1)):
-    data1[j] = data1[j] * weight + bias
+    data1[j] = round(data1[j] * weight + bias, 4)
 print(data1)
