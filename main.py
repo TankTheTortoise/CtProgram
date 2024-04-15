@@ -19,16 +19,20 @@ def element_mul(list1, scalar):
 data1 = [1, 2, 3, 4]
 data2 = [2, 4, 6, 8]
 
-weight = 1
+weight = 2
 bias = 0.01
 
 epochs = 1000
 lr = 0.001
 
-batch_size=2
+batch_size=1
 batched_data1 = []
+batched_data2 = []
 for d in range(batch_size, len(data1)+1):
     batched_data1.append(data1[d-batch_size: d])
+for d in range(batch_size, len(data2)+1):
+    batched_data2.append(data2[d-batch_size: d])
+
 print(batched_data1)
 samples = len(data1)
 for epoch in range(epochs):
@@ -36,8 +40,8 @@ for epoch in range(epochs):
         output = 0
         error = 0
         for j in range(batch_size):
-            output += forward(data1[i], weight, bias)
-            error += mse(data2[i], output, d=True)
+            output += forward(batched_data1[i][j], weight, bias)
+            error += mse(batched_data2[i][j], output, d=True)
         weight -= (error * data1[i] * lr)
         bias -= (error * lr)/batch_size
 print(weight, bias)
