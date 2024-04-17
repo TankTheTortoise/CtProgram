@@ -30,7 +30,7 @@ for i in range(len(trainY)):
     trainY[i] = float(trainY[i])
 
 weight = 2
-bias = 0.01
+bias = 345
 
 epochs = 100
 lr = 0.001
@@ -51,8 +51,6 @@ for epoch in range(epochs):
         bias -= (error * lr) / batch_size
         print(weight, bias)
 
-test_error = 0
-# Calculates the mean squared error
+
 for j in range(len(testX)):
-    test_error += mse(testY[j], (testX[j] * weight + bias))
-print(f"Mean squared error: {test_error / len(testX)}")
+    mse(testY[j], (testX[j] * weight + bias) / testY[j])
