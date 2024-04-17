@@ -32,12 +32,10 @@ for i in range(len(trainY)):
 weight = 2
 bias = 0.01
 
-epochs = 1000
+epochs = 100
 lr = 0.001
 
 batch_size = 1
-batched_data1 = []
-batched_data2 = []
 samples = len(trainX)
 for epoch in range(epochs):
     for i in range(0, samples, batch_size):
@@ -54,8 +52,9 @@ for epoch in range(epochs):
         print(weight, bias)
 
 true = 0
-for j in range(len(trainX)):
-    if testY[j] * 0.95 < round(testX[j] * weight + bias, 2) < testY[j] * 1.05:
+for j in range(len(testX)):
+    if 0.95 < round(testX[j] * weight + bias, 2)/testY[j] < 1.05:
         true += 1
-
+    else:
+        pass
 print(f"{true}/{len(testX)} correct.")
