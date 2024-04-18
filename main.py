@@ -5,7 +5,6 @@ def mse(y, y_hat, d=False):
         return 2 * (y_hat - y)
 
 
-
 with open("testX.txt", "r") as testX_file:
     testX = testX_file.readline()
 testX = testX.split(",")
@@ -29,10 +28,6 @@ with open("trainY.txt", "r") as trainY_file:
 trainY = trainY.split(",")
 for i in range(len(trainY)):
     trainY[i] = float(trainY[i])
-print(trainX)
-print(trainY)
-print(testX)
-print(testY)
 
 weight = 20
 bias = 0.01
@@ -40,25 +35,24 @@ bias = 0.01
 epochs = 1000
 lr = 0.01
 
-batch_size = 1
+
+samples = len(trainX)
 samples = len(trainX)
 for epoch in range(epochs):
-    for i in range(0, samples, batch_size):
+    for i in range(0, samples):
         output = 0
         error = 0
         w_error = 0
-        for j in range(0, batch_size):
-            output += trainX[i + j] * weight + bias
-            error += mse(trainY[i + j], output, d=True)
-            w_error += mse(trainY[i + j], output, d=True) * trainX[i + j]
+        output += trainX[i] * weight + bias
+        error += mse(trainY[i], output, d=True)
+        w_error += mse(trainY[i], output, d=True) * trainX[i]
 
-        weight -= lr * (w_error/ batch_size)
-        bias -= lr * (error/ batch_size)
+        weight -= lr * w_error
+        bias -= lr * error
 
 weight = round(weight, 5)
 bias = round(bias, 5)
 test_error = 0
 for j in range(len(testX)):
     test_error += mse(testY[j], (testX[j] * weight + bias))
-    print(testY[j], (testX[j] * weight + bias))
 print(f"Mean squared error: {test_error / len(testX)}")
