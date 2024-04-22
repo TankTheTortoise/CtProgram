@@ -1,8 +1,15 @@
+# Returns the mean squared error of an answer and a guess
 def mse(y, y_hat, d=False):
-    if not d:
-        return (y_hat - y) ** 2
-    if d:
-        return 2 * (y_hat - y)
+    if len(y) != len(y_hat):
+        raise Exception("Lengths of inputted lists aren't the same")
+    error = 0
+    for i in range(len(y)):
+        if not d:
+            error += (y_hat[i] - y[i]) ** 2
+        if d:
+            error += 2 * (y_hat[i] - y[i])
+    error /= len(y)
+    return error
 
 
 # These all open a file, read the file into a string, and then split the string by commas into a list of numbers
@@ -33,12 +40,12 @@ for i in range(len(trainY)):
     trainY[i] = float(trainY[i])
 
 # The weight is multiplied by the incoming data. It is assigned a random value at the beginning
-weight = 0.5
+weight:float = 0.5
 # The bias is added by the incoming data * weight. It is assigned a random value at the beginning
 bias = 0.01
 
 # Epochs are how many times the entire set of data is looped through
-epochs = 100
+epochs = 10
 # The learning rate adjusts how much the model weights the errors.
 lr = 0.01
 
@@ -49,8 +56,8 @@ for epoch in range(epochs):
         error = 0
         w_error = 0
         output += trainX[i] * weight + bias
-        error += mse(trainY[i], output, d=True)
-        w_error += mse(trainY[i], output, d=True) * trainX[i]
+        error += mse([trainY[i]], [output], d=True)
+        w_error += mse([trainY[i]], [output], d=True) * trainX[i]
 
         weight -= lr * w_error
         bias -= lr * error
@@ -58,8 +65,8 @@ for epoch in range(epochs):
 # The weights and biases
 weight = round(weight, 5)
 bias = round(bias, 5)
-test_error = 0
+
 # Calculates the mean squared error
-for j in range(len(testX)):
-    test_error += mse(testY[j], (testX[j] * weight + bias))
-print(f"Mean squared error: {test_error / len(testX)}")
+test_outputs = [j * weight + bias for j in testX]
+test_outputs = mse(testY, test_outputs)
+print(f"Mean squared error: {test_outputs}")

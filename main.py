@@ -37,7 +37,6 @@ lr = 0.01
 
 
 samples = len(trainX)
-samples = len(trainX)
 for epoch in range(epochs):
     for i in range(0, samples):
         output = 0
