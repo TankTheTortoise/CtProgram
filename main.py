@@ -9,6 +9,12 @@ def mse(y, y_hat, d=False):
             error += 2 * (y_hat[i] - y[i])
     error /= len(y)
     return error
+
+
+input("If you have not created four files called testX.txt, testY.txt, trainX.txt, and trainY.txt, create them now with"
+      "\nthe appropriate data. Press enter to continue: ")
+
+
 with open("testX.txt", "r") as testX_file:
     testX = testX_file.readline()
 testX = testX.split(",")
@@ -33,7 +39,7 @@ for i in range(len(trainY)):
 weight:float = 0.5
 bias = 0.01
 
-epochs = 10
+epochs = 1000
 lr = 0.01
 
 samples = len(trainX)
@@ -55,3 +61,6 @@ bias = round(bias, 5)
 test_outputs = [j * weight + bias for j in testX]
 test_outputs = mse(testY, test_outputs)
 print(f"Mean squared error: {test_outputs}")
+print(f"Weight: {weight}, Bias: {bias}")
+
+

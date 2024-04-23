@@ -12,6 +12,9 @@ def mse(y, y_hat, d=False):
     return error
 
 
+input("If you have not created four files called testX.txt, testY.txt, trainX.txt, and trainY.txt, create them now with"
+      "\nthe appropriate data. Press enter to continue: ")
+
 # These all open a file, read the file into a string, and then split the string by commas into a list of numbers
 
 # Input data for testing
@@ -45,7 +48,7 @@ weight:float = 0.5
 bias = 0.01
 
 # Epochs are how many times the entire set of data is looped through
-epochs = 10
+epochs = 1000
 # The learning rate adjusts how much the model weights the errors.
 lr = 0.01
 
@@ -70,3 +73,6 @@ bias = round(bias, 5)
 test_outputs = [j * weight + bias for j in testX]
 test_outputs = mse(testY, test_outputs)
 print(f"Mean squared error: {test_outputs}")
+print(f"Weight: {weight}, Bias: {bias}")
+
+
